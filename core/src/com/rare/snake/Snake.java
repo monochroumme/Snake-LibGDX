@@ -5,19 +5,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.rare.snake.scenes.GameScreen;
 
 public class Snake {
     private GameScreen gameScreen;
     private Vector2 head;
     private Array<Vector2> tail;
     private Vector2 dir;
-    private int length = 3;
     private long startTimeBetweenMoves;
     private long timeBetweenMoves = 100; // in millis
 
+    public int length = 3;
+
     public Snake(GameScreen gameScreen){
         this.gameScreen = gameScreen;
-        tail = new Array<>();
+        tail = new Array<Vector2>();
         restart();
     }
 
@@ -49,7 +51,7 @@ public class Snake {
 
         // Checking collisions with the wall or the snake itself
         if(gameScreen.grid[(int)head.x][(int)head.y] == CellType.WALL || gameScreen.grid[(int)head.x][(int)head.y] == CellType.SNAKE){
-            gameScreen.gameOver(length);
+            gameScreen.gameOver = true;
             return;
         }
 
@@ -76,6 +78,7 @@ public class Snake {
         tail.add(new Vector2(gameScreen.colsNrows/2 - 1, gameScreen.colsNrows/2));
         tail.add(new Vector2(gameScreen.colsNrows/2, gameScreen.colsNrows/2));
         dir = new Vector2(1, 0); // moves to the right by default
+        length = 3;
         startTimeBetweenMoves = System.currentTimeMillis();
     }
 }
